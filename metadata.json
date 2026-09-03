@@ -1,0 +1,8 @@
+{
+  "name": "Smile Avenue Dental Clinic",
+  "description": "Premium dental clinic in Sector 44, Noida with 5.0 Google rating and 16 reviews. Gentle, modern dental care open daily until 10:00 PM.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
