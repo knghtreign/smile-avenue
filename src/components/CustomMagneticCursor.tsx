@@ -18,12 +18,19 @@ export const CustomMagneticCursor: React.FC = () => {
 
   useEffect(() => {
     // Only enable on desktop devices with a precision pointer
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    
     const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
     const updatePointerAvailability = () => {
       setIsPointerAvailable(mediaQuery.matches);
     };
     updatePointerAvailability();
-    mediaQuery.addEventListener('change', updatePointerAvailability);
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', updatePointerAvailability);
+    } else if ('addListener' in mediaQuery) {
+      (mediaQuery as any).addListener(updatePointerAvailability);
+    }
 
     if (!mediaQuery.matches) return;
 
@@ -62,7 +69,11 @@ export const CustomMagneticCursor: React.FC = () => {
     document.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
-      mediaQuery.removeEventListener('change', updatePointerAvailability);
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', updatePointerAvailability);
+      } else if ('removeListener' in mediaQuery) {
+        (mediaQuery as any).removeListener(updatePointerAvailability);
+      }
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
